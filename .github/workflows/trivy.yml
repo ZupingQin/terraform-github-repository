@@ -35,4 +35,15 @@ jobs:
           ignore-unfixed: true
           format: 'sarif'
           output: 'trivy-results.sarif'
-          severity: 'CRITICAL'
+          severity: 'CRITICAL, HIGH'
+
+      - name: Check Trivy output file existence
+        run: |
+          pwd
+          ls -l  trivy-results.sarif        
+        shell: bash
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: 'trivy-results.sarif'
